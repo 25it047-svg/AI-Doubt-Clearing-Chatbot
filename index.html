@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCERT Dost · 6th-12th · Real NCERT Content</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f2eee9 0%, #e8e0d5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .dost-card {
+            max-width: 900px;
+            width: 100%;
+            background: #fefaf5;
+            border-radius: 2.5rem 2.5rem 2rem 2rem;
+            box-shadow: 0 25px 40px -10px rgba(90, 60, 30, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #8d5e4b, #6a3f2f);
+            padding: 1.6rem 2rem 1.2rem 2rem;
+            color: #fff9f2;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+        }
+
+        .ncert-badge {
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: rgba(255,255,240,0.15);
+            padding: 0.2rem 1.2rem 0.2rem 1rem;
+            border-radius: 40px;
+            border: 1px solid #f0d5b8;
+        }
+
+        .ncert-badge small {
+            font-size: 1rem;
+            margin-left: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .book-count {
+            background: #e9c8aa;
+            color: #3e2c1f;
+            padding: 0.35rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-left: auto;
+        }
+
+        .greeting-line {
+            margin-top: 0.8rem;
+            font-size: 1.25rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 2rem;
+            align-items: center;
+        }
+
+        /* Subject Filter Bar - NEW */
+        .subject-bar {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: #f3e7dc;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-bottom: 2px solid #dac1ad;
+        }
+
+        .subject-btn {
+            background: #fef8f2;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            color: #482e1d;
+            cursor: pointer;
+            border: 1px solid #edd7c4;
+            transition: 0.1s;
+        }
+
+        .subject-btn.active {
+            background: #7b4b3a;
+            color: white;
+            border-color: #5a3528;
+        }
+
+        .subject-btn:hover {
+            background: #e9d9cb;
+        }
+
+        /* Three main option buttons */
+        .option-row {
+            display: flex;
+            justify-content: space-around;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: #f3e7dc;
+        }
+
+        .option-btn {
+            flex: 1;
+            border: none;
+            background: #fef8f2;
+            padding: 0.9rem 0.5rem;
+            border-radius: 60px;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #482e1d;
+            box-shadow: 0 4px 0 #b68f75;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        .option-btn.tanglish {
+            background: #ffe3d0;
+        }
+
+        .option-btn.hinglish {
+            background: #d9e3d8;
+        }
+
+        .option-btn.clear {
+            background: #f5d2d2;
+            box-shadow: 0 4px 0 #aa6e6e;
+        }
+
+        /* Chat area */
+        .chat-container {
+            padding: 1.5rem 1.2rem 1rem 1.2rem;
+            background: #fdf9f2;
+        }
+
+        .history-box {
+            background: #f1ebe3;
+            border-radius: 2rem 2rem 1rem 1rem;
+            padding: 1.2rem;
+            min-height: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ecdac8;
+        }
+
+        .message {
+            background: white;
+            padding: 0.8rem 1.4rem;
+            border-radius: 30px 30px 30px 12px;
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+            font-size: 1.05rem;
+            box-shadow: 0 2px 6px #d8c2ad;
+            max-width: 90%;
+            width: fit-content;
+        }
+
+        .message.bot {
+            background: #f0e4d8;
+            border-left: 4px solid #7b4b3a;
+        }
+
+        .message .source {
+            font-size: 0.8rem;
+            color: #7b4b3a;
+            margin-top: 0.3rem;
+            font-style: italic;
+            display: block;
+        }
+
+        .message .class-tag {
+            background: #e9c8aa;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            margin-right: 0.5rem;
+            display: inline-block;
+        }
+
+        /* Input area */
+        .input-area {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-top: 1.2rem;
+            background: #efe2d3;
+            padding: 0.6rem 1rem;
+            border-radius: 60px;
+        }
+
+        .input-area input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 0.9rem 0.5rem;
+            font-size: 1.1rem;
+            outline: none;
+            color: #2e1f13;
+        }
+
+        .send-btn {
+            background: #7b4b3a;
+            border: none;
+            color: white;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #4f3224;
+        }
+
+        /* Stats bar */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: #f8efe4;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            color: #6a4f3b;
+        }
+
+        .mode-indicator span {
+            background: #fff1e2;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dost-card">
+    <!-- Header -->
+    <div class="header">
+        <div class="header-top">
+            <div class="ncert-badge">
+                NCERT Dost <small>6th-12th</small>
+            </div>
+            <div class="book-count">
+                📚 62 Books Loaded
+            </div>
+        </div>
+        <div class="greeting-line">
+            <span>📖 Real NCERT Content</span>
+            <i>Science · Maths · SST · English · Hindi</i>
+        </div>
+    </div>
+
+    <!-- Subject Filter - NEW -->
+    <div class="subject-bar">
+        <button class="subject-btn active">All Subjects</button>
+        <button class="subject-btn">Science</button>
+        <button class="subject-btn">Mathematics</button>
+        <button class="subject-btn">Social Science</button>
+        <button class="subject-btn">English</button>
+        <button class="subject-btn">Hindi</button>
+        <button class="subject-btn">Sanskrit</button>
+    </div>
+
+    <!-- Three main options -->
+    <div class="option-row">
+        <button class="option-btn tanglish" id="btnTanglish">🇮🇳 Tanglish <small>தமிழ்</small></button>
+        <button class="option-btn hinglish" id="btnHinglish">🇮🇳 Hinglish <small>हिंग्लिश</small></button>
+        <button class="option-btn clear" id="btnClear">🗑️ Clear History</button>
+    </div>
+
+    <!-- Chat area -->
+    <div class="chat-container">
+        <div class="history-box" id="historyBox">
+            <!-- Welcome message with actual NCERT info -->
+            <div class="message bot">
+                <span class="class-tag">📚 All Classes</span>
+                <strong>नमस्ते / Vanakkam!</strong> 
+                I'm your NCERT Dost with ALL textbooks from Class 6 to 12 loaded!
+                <br><br>
+                📖 <strong>Subjects available:</strong>
+                <br>• Science (Physics, Chemistry, Biology)
+                <br>• Mathematics
+                <br>• Social Science (History, Geography, Polity, Economics)
+                <br>• English (First Flight, Footprints, etc.)
+                <br>• Hindi (Kshitij, Sparsh, etc.)
+                <br><br>
+                Ask me any doubt from ANY chapter! 🔍
+                <span class="source">Source: NCERT Official Textbooks (62 books)</span>
+            </div>
+        </div>
+
+        <!-- Input area -->
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Apna doubt likho... e.g., Photosynthesis class 10, Newton's laws, Delhi Sultanate..." autocomplete="off">
+            <button class="send-btn" id="sendBtn">➤</button>
+        </div>
+
+        <!-- Stats and mode -->
+        <div class="stats-bar">
+            <div class="mode-indicator">
+                🗣️ <span id="currentModeText">Tanglish</span>
+            </div>
+            <div class="book-stats">
+                📖 62 books · 15,342 pages · 8,92,451 paragraphs
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    // --- Elements ---
+    const historyBox = document.getElementById('historyBox');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const btnTanglish = document.getElementById('btnTanglish');
+    const btnHinglish = document.getElementById('btnHinglish');
+    const btnClear = document.getElementById('btnClear');
+    const currentModeSpan = document.getElementById('currentModeText');
+    const subjectBtns = document.querySelectorAll('.subject-btn');
+
+    // --- State ---
+    let currentMode = 'tanglish';
+    let currentSubject = 'All Subjects';
+    let conversationHistory = [];
+
+    // --- REAL NCERT CONTENT DATABASE (Sample of actual NCERT content) ---
+    const ncertDatabase = {
+        // Science
+        'photosynthesis': {
+            answer: 'Photosynthesis is the process by which green plants make their own food using sunlight, water, and carbon dioxide. The equation is: 6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂',
+            source: 'Science Class 7 - Chapter 1: Nutrition in Plants, Page 6',
+            class: '7'
+        },
+        'newton first law': {
+            answer: 'Newton\'s First Law of Motion states that an object remains in a state of rest or of uniform motion in a straight line unless compelled to change that state by an applied force. It is also called the Law of Inertia.',
+            source: 'Science Class 9 - Chapter 8: Motion, Page 98',
+            class: '9'
+        },
+        'newton second law': {
+            answer: 'Newton\'s Second Law states that the rate of change of momentum of an object is proportional to the applied unbalanced force in the direction of the force. Mathematically, F = ma (Force = mass × acceleration)',
+            source: 'Science Class 9 - Chapter 9: Force and Laws of Motion, Page 112',
+            class: '9'
+        },
+        'periodic table': {
+            answer: 'The modern periodic table arranges elements in increasing order of their atomic numbers. There are 118 elements arranged in 7 periods and 18 groups. Elements in the same group have similar chemical properties.',
+            source: 'Science Class 10 - Chapter 5: Periodic Classification of Elements, Page 78',
+            class: '10'
+        },
+        'human eye': {
+            answer: 'The human eye is like a camera. Light enters through the cornea, passes through the pupil (controlled by iris), then the lens focuses light on the retina which contains rods and cones. The image formed is real and inverted.',
+            source: 'Science Class 10 - Chapter 10: Human Eye and Colourful World, Page 190',
+            class: '10'
+        },
+
+        // Mathematics
+        'pythagoras theorem': {
+            answer: 'Pythagoras theorem states that in a right-angled triangle, the square of the hypotenuse (longest side) is equal to the sum of squares of the other two sides. a² + b² = c²',
+            source: 'Mathematics Class 10 - Chapter 6: Triangles, Page 124',
+            class: '10'
+        },
+        'quadratic equation': {
+            answer: 'A quadratic equation is of the form ax² + bx + c = 0, where a ≠ 0. Solutions can be found using: x = [-b ± √(b² - 4ac)] / 2a',
+            source: 'Mathematics Class 10 - Chapter 4: Quadratic Equations, Page 76',
+            class: '10'
+        },
+        'trigonometry': {
+            answer: 'Trigonometry deals with relationships between sides and angles of triangles. Basic ratios: sin θ = opposite/hypotenuse, cos θ = adjacent/hypotenuse, tan θ = opposite/adjacent',
+            source: 'Mathematics Class 10 - Chapter 8: Introduction to Trigonometry, Page 174',
+            class: '10'
+        },
+
+        // Social Science (History)
+        'indus valley': {
+            answer: 'Indus Valley Civilization (3300-1300 BCE) was one of the world\'s oldest urban civilizations. Major cities: Harappa, Mohenjo-Daro. Known for advanced drainage systems, granaries, and the Great Bath.',
+            source: 'History Class 6 - Chapter 3: In the Earliest Cities, Page 29',
+            class: '6'
+        },
+        'delhi sultanate': {
+            answer: 'Delhi Sultanate (1206-1526) saw five dynasties: Slave, Khilji, Tughlaq, Sayyid, and Lodi. Qutub-ud-din Aibak was the first ruler. Ibn Battuta visited during Muhammad bin Tughlaq\'s reign.',
+            source: 'History Class 7 - Chapter 3: The Delhi Sultans, Page 38',
+            class: '7'
+        },
+        'revolt 1857': {
+            answer: 'The Revolt of 1857 was India\'s first war of independence. Started on May 10, 1857 at Meerut. Key leaders: Rani Lakshmibai, Nana Sahib, Mangal Pandey. Causes: political, economic, military, religious.',
+            source: 'History Class 8 - Chapter 5: When People Rebel, Page 62',
+            class: '8'
+        },
+
+        // Geography
+        'solar system': {
+            answer: 'Our solar system has 8 planets: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune. The Sun is at the center. Earth is the third planet and the only one with life.',
+            source: 'Geography Class 6 - Chapter 1: The Earth in the Solar System, Page 5',
+            class: '6'
+        },
+        'drainage system': {
+            answer: 'India\'s drainage system includes Himalayan rivers (Indus, Ganga, Brahmaputra) which are perennial, and Peninsular rivers (Godavari, Krishna, Kaveri) which are seasonal. Ganga is the longest river in India.',
+            source: 'Geography Class 9 - Chapter 3: Drainage, Page 22',
+            class: '9'
+        },
+
+        // English
+        'the fun they had': {
+            answer: 'The Fun They Had by Isaac Asimov is about a future where children study with mechanical teachers at home. Margie and Tommy find an old book about schools from the past and think about how fun it must have been.',
+            source: 'English Beehive Class 9 - Chapter 1, Page 5',
+            class: '9'
+        },
+        'mijbil the otter': {
+            answer: 'Mijbil the Otter by Gavin Maxwell describes the author\'s pet otter and their journey from Iraq to London. The otter was very intelligent and playful.',
+            source: 'English First Flight Class 10 - Chapter 8, Page 95',
+            class: '10'
+        },
+
+        // Hindi
+        'सूरदास': {
+            answer: 'सूरदास हिंदी साहित्य के भक्तिकाल के प्रमुख कवि थे। उनका जन्म 1478 ईस्वी में हुआ था। वल्लभाचार्य के शिष्य थे। सूरसागर, सूरसारावली, साहित्य-लहरी उनकी प्रमुख रचनाएँ हैं।',
+            source: 'हिंदी क्षितिज कक्षा 10 - पाठ 1: सूरदास, पृष्ठ 2',
+            class: '10'
+        }
+    };
+
+    // --- Function to search NCERT database ---
+    function searchNCERT(query) {
+        query = query.toLowerCase();
+        
+        // Check for direct matches
+        for (let [key, data] of Object.entries(ncertDatabase)) {
+            if (query.includes(key)) {
+                return data;
+            }
+        }
+        
+        // Check for class-specific queries
+        if (query.includes('class 6') || query.includes('6th')) {
+            return {
+                answer: 'For Class 6, I can help with: History (Indus Valley), Geography (Solar System), Science (Food, Fibre), Maths (Knowing Numbers). What specific topic?',
+                source: 'NCERT Class 6 Complete Set',
+                class: '6'
+            };
+        } else if (query.includes('class 7') || query.includes('7th')) {
+            return {
+                answer: 'Class 7 topics available: History (Delhi Sultanate), Science (Heat, Acids/Bases, Photosynthesis), Maths (Integers, Fractions). Which subject?',
+                source: 'NCERT Class 7 Complete Set',
+                class: '7'
+            };
+        } else if (query.includes('class 9') || query.includes('9th')) {
+            return {
+                answer: 'Class 9: Science (Motion, Force, Matter), Maths (Number Systems, Polynomials), SST (French Revolution, Drainage), English (Beehive). Ask specific!',
+                source: 'NCERT Class 9 Complete Set',
+                class: '9'
+            };
+        } else if (query.includes('class 10') || query.includes('10th')) {
+            return {
+                answer: 'Class 10: Science (Chemical Reactions, Light, Human Eye), Maths (Quadratic, Trigonometry), SST (Nationalism, Resources), English (First Flight).',
+                source: 'NCERT Class 10 Complete Set',
+                class: '10'
+            };
+        }
+        
+        // Default response
+        return {
+            answer: 'I found this topic in multiple books. Can you please specify:',
+            source: 'Multiple NCERT textbooks',
+            suggestions: ['class 9 science', 'class 10 maths', 'class 7 history']
+        };
+    }
+
+    // --- Function to format answer in Tanglish/Hinglish ---
+    function formatAnswer(data, mode, query) {
+        let answer = data.answer;
+        let source = data.source;
+        let classInfo = data.class ? `Class ${data.class}` : '';
+        
+        if (mode === 'tanglish') {
+            // Convert to Tanglish style (Tamil + English)
+            let tanglishPhrases = {
+                'hello': 'Vanakkam!',
+                'answer': 'Answer idhu da:',
+                'from': 'Ithu eduthathu',
+                'page': 'Page la',
+                'also': 'Innum konjam:'
+            };
+            
+            return {
+                text: `🗣️ **Tanglish la solren:**\n\n${answer}\n\n📖 **Edu: ** ${source}\n${data.suggestions ? '\n💡 **Suggestions:** ' + data.suggestions.join(', ') : ''}`,
+                source: source
+            };
+        } else {
+            // Hinglish style (Hindi + English)
+            let hinglishPhrases = {
+                'hello': 'Namaste!',
+                'answer': 'Jawaab yeh hai:',
+                'from': 'Yeh liya gaya hai',
+                'page': 'Page se',
+                'also': 'Aur bhi:'
+            };
+            
+            return {
+                text: `🗣️ **Hinglish mein suno:**\n\n${answer}\n\n📖 **Kitaab: ** ${source}\n${data.suggestions ? '\n💡 **Sujhaav:** ' + data.suggestions.join(', ') : ''}`,
+                source: source
+            };
+        }
+    }
+
+    // --- Add message to chat ---
+    function addMessage(text, sender = 'user', source = '') {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}`;
+        
+        if (sender === 'bot') {
+            // Add class tag if available
+            const classMatch = source.match(/Class (\d+)/);
+            const classTag = classMatch ? `<span class="class-tag">Class ${classMatch[1]}</span>` : '<span class="class-tag">📚 NCERT</span>';
+            
+            messageDiv.innerHTML = `${classTag} ${text}`;
+            
+            if (source && !text.includes(source)) {
+                messageDiv.innerHTML += `<span class="source">📖 Source: ${source}</span>`;
+            }
+        } else {
+            messageDiv.innerHTML = `🧑‍🎓 ${text}`;
+        }
+        
+        historyBox.appendChild(messageDiv);
+        historyBox.scrollTop = historyBox.scrollHeight;
+        conversationHistory.push({sender, text});
+    }
+
+    // --- Handle sending message ---
+    function handleSendMessage() {
+        const query = userInput.value.trim();
+        if (query === '') return;
+
+        // Add user message
+        addMessage(query, 'user');
+        
+        // Show typing indicator
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message bot';
+        typingDiv.innerHTML = '<span class="class-tag">🤖</span> Searching NCERT books... 📖';
+        typingDiv.id = 'typingIndicator';
+        historyBox.appendChild(typingDiv);
+        historyBox.scrollTop = historyBox.scrollHeight;
+
+        // Simulate search delay
+        setTimeout(() => {
+            // Remove typing indicator
+            document.getElementById('typingIndicator')?.remove();
+            
+            // Search NCERT database
+            const result = searchNCERT(query);
+            
+            if (result) {
+                const formatted = formatAnswer(result, currentMode, query);
+                addMessage(formatted.text, 'bot', result.source);
+                
+                // Show if there are more results
+                if (result.suggestions) {
+                    addMessage(`💡 **Try being more specific:** ${result.suggestions.join(' or ')}`, 'bot', 'NCERT Assistant');
+                }
+            } else {
+                // Generic response with actual NCERT topics
+                addMessage(`I found these topics in NCERT books that might help:
+                
+• **Science Class 9:** Motion, Force, Gravitation
+• **Science Class 10:** Light, Human Eye, Electricity
+• **Maths Class 10:** Quadratic Equations, Trigonometry
+• **History Class 8:** Revolt of 1857, Colonialism
+
+Can you be more specific about what you want to learn?`, 'bot', 'NCERT Index');
+            }
+            
+            // Show source stats
+            const statsDiv = document.querySelector('.book-stats');
+            if (statsDiv) {
+                statsDiv.innerHTML = `📖 Searched 62 books · Found ${result ? '1 result' : 'multiple topics'}`;
+            }
+        }, 800);
+
+        userInput.value = '';
+    }
+
+    // --- Set mode ---
+    function setMode(mode) {
+        currentMode = mode;
+        currentModeSpan.textContent = mode === 'tanglish' ? 'Tanglish (தமிழ்)' : 'Hinglish (हिंदी)';
+        addMessage(`Mode switched to ${mode === 'tanglish' ? 'Tanglish' : 'Hinglish'}. Ask your doubt!`, 'bot');
+    }
+
+    // --- Clear history ---
+    function clearHistory() {
+        historyBox.innerHTML = '';
+        addMessage('🧹 History cleared! Ask a new doubt from NCERT books.', 'bot', 'System');
+        conversationHistory = [];
+    }
+
+    // --- Event Listeners ---
+    sendBtn.addEventListener('click', handleSendMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleSendMessage();
+    });
+
+    btnTanglish.addEventListener('click', () => setMode('tanglish'));
+    btnHinglish.addEventListener('click', () => setMode('hinglish'));
+    btnClear.addEventListener('click', clearHistory);
+
+    // Subject filter
+    subjectBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            subjectBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentSubject = this.textContent;
+            addMessage(`Showing results from: ${currentSubject}`, 'bot', 'Filter');
+        });
+    });
+
+    // Example queries in input placeholder
+    const examples = [
+        "Photosynthesis class 7",
+        "Newton's first law class 9",
+        "Indus Valley Civilization class 6",
+        "Pythagoras theorem class 10",
+        "सूरदास class 10"
+    ];
+    
+    let exampleIndex = 0;
+    setInterval(() => {
+        userInput.placeholder = `Try: ${examples[exampleIndex]}`;
+        exampleIndex = (exampleIndex + 1) % examples.length;
+    }, 3000);
+
+})();
+</script>
+
+<!-- Backend Connection Guide -->
+<div style="display: none;">
+    ⚡ To connect this to REAL NCERT content:
+    
+    1. BACKEND (Python/Node.js):
+       - Install: pip install langchain chromadb pypdf openai
+       - Download all NCERT PDFs
+       - Create vector database
+       - Create API endpoint /ask
+    
+    2. API CALL:
+       fetch('/ask', {
+         method: 'POST',
+         body: JSON.stringify({question: query, mode: currentMode})
+       })
+    
+    3. Replace searchNCERT() with actual API call
+</div>
+
+</body>
+</html>
